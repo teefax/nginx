@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+function detect_php() {
+    if [[ ${PHP?"Need to set PHP version"} ]]; then
+        export PHPFPM_BIN="/opt/php/$PHP/sbin/php-fpm"
+        export PHP_BIN="/opt/php/$PHP/bin/php"
+        export PHP_DIR="/opt/php/$PHP/bin/"
+        export PHPFPM_DIR="/opt/php/$PHP/sbin/"
+        export PATH=$PATH:$PHPFPM_DIR:$PHP_DIR
+        export MYSQL_SERVER="$(env | egrep '*_MYSQL_1_PORT' | awk -F'=' '{print $2}')"
+        export MYSQL_SERVER_HOST="$(echo $MYSQL_SERVER | awk -F':' '{print $2}' | awk -F'//' '{print $2}')"
+        echo "env[MYSQL_SERVER_HOST] = $MYSQL_SERVER_HOST" > /opt/php/$PHP/etc/env.conf
+        echo "php_admin_value[date.timezone] = $TIMEZONE" >> /opt/php/$PHP/etc/env.conf
+
+        if [[ $XHPROF ]]; then
+            echo "php_admin_value[auto_prepend_file] = /opt/xhprof/inc/prepend.php" >> /opt/php/$PHP/etc/env.conf
+        fi
+
+        env&&
+        $PHPFPM_BIN -v&&
+        $PHPFPM_BIN -m
+    fi
+}
+
+function start_php() {
+    logger info "Starting PHP $PHP"
+    exec $PHPFPM_BIN -R
+}
+
+{  # try
+    detect_php &&
+    start_php
+} || {  # catch
+    echo "-----> Failed detecting PHP"
+    exit 1
+}
