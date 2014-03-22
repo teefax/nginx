@@ -16,6 +16,18 @@ function detect_php() {
             echo "php_admin_value[auto_prepend_file] = /opt/xhprof/inc/prepend.php" >> /opt/php/$PHP/etc/env.conf
         fi
 
+        if [[ $XDEBUG ]]; then
+            echo "Xdebug host is: $XDEBUG"
+            if [[ ${XDEBUG_PORT?"Need to set XDEBUG_PORT"} ]]; then
+                echo "Xdebug port is: $XDEBUG_PORT"
+                echo "xdebug.remote_host = $XDEBUG" >> /opt/php/$PHP/etc/conf.d/xdebug.ini
+                echo "xdebug.idekey = $XDEBUG_IDEKEY" >> /opt/php/$PHP/etc/conf.d/xdebug.ini
+                echo "xdebug.remote_port = $XDEBUG_PORT" >> /opt/php/$PHP/etc/conf.d/xdebug.ini
+                echo "xdebug.remote_enable = 1" >> /opt/php/$PHP/etc/conf.d/xdebug.ini
+                echo "xdebug.remote_mode = req" >> /opt/php/$PHP/etc/conf.d/xdebug.ini
+            fi
+        fi
+
         env&&
         $PHPFPM_BIN -v&&
         $PHPFPM_BIN -m
