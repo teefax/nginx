@@ -12,10 +12,6 @@ function detect_php() {
         echo "env[MYSQL_SERVER_HOST] = $MYSQL_SERVER_HOST" > /opt/php/$PHP/etc/env.conf
         echo "php_admin_value[date.timezone] = $TIMEZONE" >> /opt/php/$PHP/etc/env.conf
 
-        if [[ $XHPROF ]]; then
-            echo "php_admin_value[auto_prepend_file] = /opt/xhprof/inc/prepend.php" >> /opt/php/$PHP/etc/env.conf
-        fi
-
         if [[ $XDEBUG ]]; then
             echo "Xdebug host is: $XDEBUG"
             if [[ ${XDEBUG_PORT?"Need to set XDEBUG_PORT"} ]]; then
