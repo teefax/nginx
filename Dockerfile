@@ -12,8 +12,6 @@ run    echo "daemon off;" >> /etc/nginx/nginx.conf
 run    sudo apt-get -y --force-yes install graphviz #xhprof.io
 run    apt-get autoclean
 
-add   ./xhprof /opt/xhprof
-add   ./xhprof.php /opt/xhprof/xhprof/includes/config.inc.php
 add   ./default.conf /etc/nginx/sites-available/default
 add   ./php-fpm.conf /opt/php/5.5/etc/php-fpm.conf
 add   ./php-fpm.conf /opt/php/5.4/etc/php-fpm.conf
