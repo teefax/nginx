@@ -13,13 +13,15 @@ run    sudo apt-get -y --force-yes install graphviz #xhprof.io
 run    apt-get autoclean
 
 add   ./default.conf /etc/nginx/sites-available/default
+add   ./php-fpm.conf /opt/php/5.6/etc/php-fpm.conf
 add   ./php-fpm.conf /opt/php/5.5/etc/php-fpm.conf
 add   ./php-fpm.conf /opt/php/5.4/etc/php-fpm.conf
 add   ./php-fpm.conf /opt/php/5.3/etc/php-fpm.conf
 run    sed -i -e"s/pm = ondemand/pm = dynamic/" /opt/php/5.3/etc/php-fpm.conf; \
     sed -i -e "s/varPHP/5\.3/" /opt/php/5.3/etc/php-fpm.conf; \
     sed -i -e "s/varPHP/5\.4/" /opt/php/5.4/etc/php-fpm.conf; \
-    sed -i -e "s/varPHP/5\.5/" /opt/php/5.5/etc/php-fpm.conf;
+    sed -i -e "s/varPHP/5\.5/" /opt/php/5.5/etc/php-fpm.conf; \
+    sed -i -e "s/varPHP/5\.6/" /opt/php/5.6/etc/php-fpm.conf;
 
 add   ./php-start /opt/php-start 
 add   ./Procfile /Procfile
