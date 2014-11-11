@@ -6,7 +6,7 @@ run add-apt-repository -y ppa:nginx/stable; \
     apt-get -y --force-yes install nginx; \
     sed -i -e"s/user www-data;/user root;/" /etc/nginx/nginx.conf; \
     sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf; \
-    sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 3m/" /etc/nginx/nginx.conf; \
+    sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 2000m/" /etc/nginx/nginx.conf; \
     echo "daemon off;" >> /etc/nginx/nginx.conf
     apt-get autoclean;
 

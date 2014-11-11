@@ -11,7 +11,11 @@ function detect_php() {
         export MYSQL_SERVER_HOST="$(echo $MYSQL_SERVER | awk -F':' '{print $2}' | awk -F'//' '{print $2}')"
         echo "env[MYSQL_SERVER_HOST] = $MYSQL_SERVER_HOST" > /opt/php/$PHP/etc/env.conf
         echo "php_admin_value[date.timezone] = $TIMEZONE" >> /opt/php/$PHP/etc/env.conf
-
+        echo "php_admin_value[post_max_size] = 2000M" >> /opt/php/$PHP/etc/env.conf
+        echo "php_admin_value[max_execution_time] = 3000" >> /opt/php/$PHP/etc/env.conf
+        echo "php_admin_value[max_input_time] = 3000" >> /opt/php/$PHP/etc/env.conf
+        echo "php_admin_value[upload_max_filesize] = 2000M" >> /opt/php/$PHP/etc/env.conf
+        echo "php_admin_value[upload_max_filesize] = 2000M" >> /opt/php/$PHP/etc/env.conf
         if [[ $XDEBUG ]]; then
             echo "Xdebug host is: $XDEBUG"
             if [[ ${XDEBUG_PORT?"Need to set XDEBUG_PORT"} ]]; then
